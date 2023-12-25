@@ -56,3 +56,71 @@ Or install it with:
     cd spek
     ./autogen.sh
     make
+
+### Building under Ubuntu 22.04 LTS
+
+Additional instructions are used to build spek dependencies from sources with date 2023-12-27 (latest version 0.8.5).  
+If you use the spek source tarball, then only newer ffmpeg libraries are needed.  
+If you use spek git sources, also newer wxwidget libraries are needed.
+
+#### ffmpeg
+
+Ubuntu 22.04 LTS only provides ffmpeg version 4.x and libavformat58.
+spek currenty relies on libavformat59, so you need ffmpeg libraries for version 5.x.
+
+##### Instructions
+Uninstall build-in ffmpeg (optional).  
+Download ffmpeg sources for latest version 5.x from https://ffmpeg.org/download.html#get-sources  
+Direct link: https://ffmpeg.org/releases/ffmpeg-5.1.4.tar.xz  
+
+Build ffmpeg:
+
+    tar xvf ffmpeg-5.1.4.tar.xz
+    cd ffmpeg-5.1.4
+    ./configure
+    # check for errors or missing dependencies
+    make
+    sudo make install
+
+Build spek (see instructions above):
+
+    tar -xvf spek-0.8.5.tar.xz
+    cd spek-0.8.5
+    ./configure
+    make
+
+#### wxwidgets
+
+Ubuntu 22.04 LTS only provides wxwidget in version 3.0.5, but version >=3.1.7 is needed.
+
+##### Additional packages
+
+Install it via apt:
+* dh-autoreconf
+* libgtk-3-dev
+* libgtk-4-dev (?)
+* gettext
+
+##### Instructions to build newer wxwidets 3.2.4
+Download latest wxwidgets from https://www.wxwidgets.org/downloads/  
+Direct link: https://github.com/wxWidgets/wxWidgets/releases/download/v3.2.4/wxWidgets-3.2.4.tar.bz2  
+Build wxwidgets with instructions from here https://github.com/wxWidgets/wxWidgets/blob/v3.2.4/docs/gtk/install.md
+
+Build wxwidgets:
+
+    tar xvjf wxWidgets-3.2.4.tar.bz2
+    cd wxWidgets-3.2.4
+    mkdir buildgtk
+    cd buildgtk
+    ../configure --with-gtk
+    # check for errors or missing dependencies
+    make
+    sudo make install
+    sudo ldconfig
+
+Build spek (see instructions above):
+
+    git clone git://github.com/alexkay/spek.git
+    cd spek
+    ./autogen.sh
+    make
